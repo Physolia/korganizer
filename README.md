@@ -30,4 +30,6 @@ integrated with the other KDE PIM applications.  For instance, you can configure
 it to show birthdays from &kaddressbook; in your agenda, use KMail to send and
 receive invitations, etc.
 
+# Test ignore
 
+testing
