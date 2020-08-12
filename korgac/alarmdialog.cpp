@@ -37,7 +37,6 @@
 #include <KMessageBox>
 #include <KNotification>
 #include <KSharedConfig>
-#include <KToolInvocation>
 #include <KWindowSystem>
 
 #include <QDialogButtonBox>
@@ -1045,17 +1044,6 @@ void AlarmDialog::keyPressEvent(QKeyEvent *e)
 
 bool AlarmDialog::openIncidenceEditorThroughKOrganizer(const Incidence::Ptr &incidence)
 {
-    if (!QDBusConnection::sessionBus().interface()->isServiceRegistered(QStringLiteral(
-                                                                            "org.kde.korganizer"))) {
-        if (KToolInvocation::startServiceByDesktopName(QStringLiteral("org.kde.korganizer"),
-                                                       QString())) {
-            KMessageBox::error(
-                this,
-                i18nc("@info",
-                      "Could not start KOrganizer so editing is not possible."));
-            return false;
-        }
-    }
     org::kde::korganizer::Korganizer korganizer(
         QStringLiteral("org.kde.korganizer"), QStringLiteral(
             "/Korganizer"), QDBusConnection::sessionBus());

@@ -16,8 +16,8 @@
 #include <KIconLoader>
 #include <KLocalizedString>
 #include <KMessageBox>
-#include <KToolInvocation>
 #include <KSharedConfig>
+#include <KIO/ApplicationLauncherJob>
 #include <QMenu>
 #include "koalarmclient_debug.h"
 
@@ -167,7 +167,9 @@ void AlarmDockWindow::enableAutostart(bool enable)
 void AlarmDockWindow::activate(const QPoint &pos)
 {
     Q_UNUSED(pos);
-    KToolInvocation::startServiceByDesktopName(QStringLiteral("org.kde.korganizer"), QString());
+    const KService::Ptr korga = KService::serviceByDesktopName(QStringLiteral("org.kde.korganizer"));
+    auto job = new KIO::ApplicationLauncherJob(korga);
+    job->start();
 }
 
 void AlarmDockWindow::slotQuit()

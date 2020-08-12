@@ -18,7 +18,6 @@
 #include <AkonadiCore/Item>
 
 #include <KLocalizedString>
-#include <KToolInvocation>
 #include <QIcon>
 #include <QDialogButtonBox>
 #include <QPushButton>
@@ -86,18 +85,12 @@ void KOEventViewerDialog::editIncidence()
     const Akonadi::Item item = mEventViewer->item();
 
     if (CalendarSupport::hasIncidence(item)) {
-        // make sure korganizer is running or the part is shown
-        const QString desktopFile = QStandardPaths::locate(QStandardPaths::ApplicationsLocation, QStringLiteral(
-                                                               "org.kde.korganizer.desktop"));
-        QString error;
-        if (KToolInvocation::startServiceByDesktopPath(desktopFile, QStringList(), &error) == 0) {
-            OrgKdeKorganizerKorganizerInterface korganizerIface(
-                QStringLiteral("org.kde.korganizer"), QStringLiteral(
-                    "/Korganizer"), QDBusConnection::sessionBus());
-            korganizerIface.editIncidence(QString::number(item.id()));
-        } else {
-            qCWarning(KORGANIZER_LOG) << "Failure starting korganizer:" << error;
-        }
+        OrgKdeKorganizerKorganizerInterface korganizerIface(
+            QStringLiteral("org.kde.korganizer"),
+            QStringLiteral("/Korganizer"),
+            QDBusConnection::sessionBus());
+
+        korganizerIface.editIncidence(QString::number(item.id()));
     }
 }
 
@@ -107,16 +100,12 @@ void KOEventViewerDialog::showIncidenceContext()
 
     if (CalendarSupport::hasIncidence(item)) {
         // make sure korganizer is running or the part is shown
-        const QString desktopFile = QStandardPaths::locate(QStandardPaths::ApplicationsLocation, QStringLiteral(
-                                                               "org.kde.korganizer.desktop"));
-        QString error;
-        if (KToolInvocation::startServiceByDesktopPath(desktopFile, QStringList(), &error) == 0) {
-            OrgKdeKorganizerKorganizerInterface korganizerIface(
-                QStringLiteral("org.kde.korganizer"), QStringLiteral(
-                    "/Korganizer"), QDBusConnection::sessionBus());
-            korganizerIface.showIncidenceContext(QString::number(item.id()));
-        } else {
-            qCWarning(KORGANIZER_LOG) << "Failure starting korganizer:" << error;
-        }
+
+        OrgKdeKorganizerKorganizerInterface korganizerIface(
+            QStringLiteral("org.kde.korganizer"),
+            QStringLiteral("/Korganizer"),
+            QDBusConnection::sessionBus());
+
+        korganizerIface.showIncidenceContext(QString::number(item.id()));
     }
 }

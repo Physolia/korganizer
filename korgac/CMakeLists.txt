@@ -73,6 +73,7 @@ target_link_libraries(korgac
     KF5::IconThemes
     KF5::Service
     KF5::KIOCore
+    KF5::KIOGui
     KF5::WindowSystem
     )
 
